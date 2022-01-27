@@ -14,15 +14,24 @@ If YAD is not present, the script will try to install it for you. It expects a D
 
 If the installation succeeds, you will have a new icon for the application, called `Waydroid Helper`.
 
+![Screenshot](https://github.com/thomashastings/waydroid-helper-yad/raw/303f9017ff2fb069c642611eed7a6e4af9b36981/screenshot.png)
+
 ### Feautres
 - Install Waydroid
 - Uninstall Waydroid (watch out, this will wipe your installation no questions asked!!)
 - Start Waydroid container and session
 - Stop Waydroid container and session
 
+Notes:
+- As of now, the application **does not provide feedback** about its opreations.
+- If you choose to uninstall Waydroid, Waydroid and all of its data will be **removed** no questions asked.
+
 ### Credit
 The original idea comes from [Aaron Hafer](https://open-store.io/app/waydroidhelper.aaronhafer).
+
 The icon is the original icon of [Waydroid](https://waydro.id/), just changed the hue to have a consistent look.
+
+The actions running in the applications are from the [Waydroid docs](https://docs.waydro.id/usage/install-on-desktops).
 
 ### License
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3, as published by the Free Software Foundation.
