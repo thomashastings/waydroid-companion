@@ -4,7 +4,7 @@ echo "Installing Waydroid Helper Yad for $USERNAME..."
 chmod +x scripts/*
 mkdir -p /home/$USERNAME/.local/share/waydroid-helper
 cp scripts/* /home/$USERNAME/.local/share/waydroid-helper
-cp menu-items/AppIcon.png /home/$USERNAME/.local/share/waydroid-helper/
+cp icon/AppIcon.png /home/$USERNAME/.local/share/waydroid-helper/
 echo ""
 echo "Generating .desktop file..."
 cat >> /home/$USERNAME/.local/share/applications/waydroid-helper.desktop << EOF
