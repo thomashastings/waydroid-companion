@@ -6,8 +6,8 @@ Its intended usecase is stopping Waydroid on mobile devices running Phosh to pre
 ### Installation
 You can install this application by running:
 ```
-git clone https://github.com/thomashastings/waydroid-helper-yad/
-cd waydroid-helper-yad
+git clone https://github.com/thomashastings/waydroid-companion/
+cd waydroid-companion
 ./install.sh
 ```
 If YAD is not present, the script will try to install it for you. It expects a Debian based distribution with `apt` as the package manager.
