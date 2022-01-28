@@ -1,4 +1,4 @@
-## Waydroid Helper Yad
+## Waydroid Companion
 This is a small, GUI-enabled script for starting and stopping Waydroid sessions. Its only dependency is [YAD](https://manpages.org/yad), which is available on numerous distros.
 
 Its intended usecase is stopping Waydroid on mobile devices running Phosh to preserve battery, but might be useful on desktop desktop devices as well.
