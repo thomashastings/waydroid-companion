@@ -30,6 +30,7 @@ You can remove the script by running:
 
 Notes:
 - As of now, the application **does not provide feedback** about its opreations.
+- However, if you run it from the terminal as `~/.local/bin/waydroid-companion`, the terminal window will show what's going on.
 - Once switched the visible/hidden state of an application, the `Hide applications` window has to be opened again to represent the changes happened.
 - If you choose to uninstall Waydroid, Waydroid and all of its data will be **removed** no questions asked.
 
