@@ -4,7 +4,7 @@ echo "Installing Waydroid Companion for $USERNAME..."
 chmod +x scripts/*
 mkdir -p /home/$USERNAME/.local/share/waydroid-companion
 cp icon/AppIcon.png /home/$USERNAME/.local/share/waydroid-companion/
-for FILE in container-start container-stop installation-screen install-waydroid main-window uninstall-waydroid; do
+for FILE in container-start container-stop installation-screen install-waydroid main-screen uninstall-waydroid generate-hideapps-screen; do
     cp scripts/$FILE /home/$USERNAME/.local/share/waydroid-companion/
 done
 mkdir -p /home/$USERNAME/.local/bin/
@@ -13,7 +13,7 @@ echo ""
 echo "Generating .desktop file..."
 cat > /home/$USERNAME/.local/share/applications/waydroid-companion.desktop << EOF
 [Desktop Entry]
-Name=Waydroid companion
+Name=Waydroid Companion
 Exec=/home/$USERNAME/.local/bin/waydroid-companion
 Comment=
 Terminal=false
