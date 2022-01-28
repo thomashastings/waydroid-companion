@@ -6,7 +6,7 @@ Its intended usecase is stopping Waydroid on mobile devices running Phosh to pre
 ### Installation
 You can install this application by running:
 ```
-git clone https://github.com/thomashastings/waydroid-companion/
+git clone https://github.com/thomashastings/waydroid-companion.git
 cd waydroid-companion
 ./install.sh
 ```
