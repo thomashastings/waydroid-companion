@@ -19,16 +19,18 @@ You can remove the script by running:
 ~/.local/bin/waydroid-companion --remove
 ```
 
-![Screenshot](https://github.com/thomashastings/waydroid-helper-yad/raw/303f9017ff2fb069c642611eed7a6e4af9b36981/screenshot.png)
+![Screenshot](https://github.com/thomashastings/waydroid-companion/raw/main/screenshot.png)
 
 ### Feautres
 - Install Waydroid
 - Uninstall Waydroid (watch out, this will wipe your installation!)
 - Start Waydroid container and session
 - Stop Waydroid container and session
+- Hide/show applications related to Waydroid
 
 Notes:
 - As of now, the application **does not provide feedback** about its opreations.
+- Once switched the visible/hidden state of an application, the `Hide applications` window has to be opened again to represent the changes happened.
 - If you choose to uninstall Waydroid, Waydroid and all of its data will be **removed** no questions asked.
 
 ### Credit
