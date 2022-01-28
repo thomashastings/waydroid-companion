@@ -12,7 +12,7 @@ cd waydroid-helper-yad
 ```
 If YAD is not present, the script will try to install it for you. It expects a Debian based distribution with `apt` as the package manager.
 
-If the installation succeeds, you will have a new icon for the application, called `Waydroid Helper`.
+If the installation succeeds, you will have a new icon for the application, called `Waydroid Companion`.
 
 You can remove the script by running:
 ```
@@ -23,7 +23,7 @@ You can remove the script by running:
 
 ### Feautres
 - Install Waydroid
-- Uninstall Waydroid (watch out, this will wipe your installation no questions asked!!)
+- Uninstall Waydroid (watch out, this will wipe your installation!)
 - Start Waydroid container and session
 - Stop Waydroid container and session
 
