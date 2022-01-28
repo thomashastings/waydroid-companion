@@ -1,0 +1,58 @@
+#!/bin/bash
+function help {
+echo "
+Waydroid Companion
+
+OPTIONAL ARGUMENTS:
+-g or --gui       Triggers main script with YAD dialogs
+-r or --remove    Initiates the removal of the script
+-h or --help      Display this message
+
+USAGE EXAMPLE:
+waydroid-companion --gui
+
+NOTE:
+Please, make sure that the \"yad\" package
+is installed on your system.
+"
+exit 0
+}
+
+function remove_script {
+read -p "Are you sure you want to remove Waydroid companion? [Y/n] " REMOVE
+if [[ $REMOVE == "Y" ]] || [[ $REMOVE == "y" ]]; then
+    rm ~/.local/share/applications/waydroid-companion.desktop
+    rm ~/.local/share/waydroid-companion/container-start
+    rm ~/.local/share/waydroid-companion/container-stop
+    rm ~/.local/share/waydroid-companion/installation-screen
+    rm ~/.local/share/waydroid-companion/install-waydroid
+    rm ~/.local/share/waydroid-companion/generate-hideapps-screen
+    rm ~/.local/share/waydroid-companion/hideapps-screen
+    rm ~/.local/share/waydroid-companion/main-screen
+    rm ~/.local/share/waydroid-companion/uninstall-waydroid
+    rm ~/.local/share/waydroid-companion/AppIcon.png
+    rm ~/.local/bin/waydroid-companion
+
+    if [[ $(ls ~/.local/share/waydroid-companion/) == "" ]]; then
+        rm -r ~/.local/share/waydroid-companion/
+    fi
+
+    read -p "Would you like to uninstall \"yad\" as well? [Y/n] " UNINST
+        if [[ $UNINST == "Y" ]] || [[ $UNINST == "y" ]]; then
+        echo "Running \"sudo apt -y remove yad...\""
+            sudo apt -y remove yad
+        fi
+fi
+}
+
+
+## Parse out command-line arguments
+case "$1" in
+    "" )
+        ~/.local/share/waydroid-companion/main-screen ;;
+    -h | --help ) 
+        help ;;
+    -r | --remove )
+        remove_script ;;
+esac
+
