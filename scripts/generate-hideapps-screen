@@ -5,7 +5,7 @@ echo '#!/bin/bash' > $WINDOW
 chmod +x $WINDOW
 echo 'yad --title "Hide Apps" --form --scroll\' >> $WINDOW
  
-for FILE in $(ls -1 $APPSPATH/*desktop)
+for FILE in $(ls -1 $APPSPATH/waydroid*desktop)
 do
 STATE=$(grep NoDisplay $FILE)
 #NAME=$(echo $FILE | cut -d "." -f2- | rev | cut -d "." -f2- | rev)
