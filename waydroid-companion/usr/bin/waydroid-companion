@@ -1,0 +1,140 @@
+#!/bin/bash
+ask_passwd() {
+     yad --class="GSu" \
+    --title="Password" \
+    --text="Enter password for user $(whoami):" \
+    --image="dialog-password" \
+    --entry --hide-text
+    }
+    
+confirm_action() {
+    yad --text-align=center --title "Confirmation" --buttons-layout=center --text "$1" \
+        --button='gtk-yes':0 \
+        --button='gtk-no':1 && echo $?
+}
+
+show_progress() {
+    yad --title "Info" --timeout=8 --no-buttons --text "$1. Please, wait..." --text-align=center --pulsate --progress
+}
+
+install_waydroid() {
+    CONFIRM=$(bash -c "confirm_action 'Install Waydroid?'")
+    if [[ $CONFIRM == "0" ]]; then
+        wget -q --spider https://1.1.1.1
+        if [ $? -eq "0" ]; then
+            CONFIRM2="0"
+            echo $1 | sudo -S apt update | $(bash -c "show_progress 'Updating repositories'")
+        else
+            CONFIRM2=$(bash -c "confirm_action 'You appear to be offline. Try anyway?'")
+        fi
+    fi
+    if [[ "$CONFIRM" == "0" ]] && [[ "$CONFIRM2" == "0" ]]; then
+        sudo apt install curl wget lxc python3 -y | $(bash -c "show_progress 'Installing dependencies'")
+        sudo apt install ca-certificates -y | $(bash -c "show_progress 'Installing dependencies'")
+        export DISTRO="bullseye" && \
+        sudo curl -# --proto '=https' --tlsv1.2 -Sf https://repo.waydro.id/waydroid.gpg --output /usr/share/keyrings/waydroid.gpg && \
+        echo "deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ $DISTRO main" > ~/waydroid.list && \
+        sudo mv ~/waydroid.list /etc/apt/sources.list.d/waydroid.list && \
+        sudo apt update | $(bash -c "show_progress 'Updating repositories again'")
+        sudo apt -y install waydroid | $(bash -c "show_progress 'Installing Waydroid'")
+        sudo waydroid init | $(bash -c "show_progress 'Intitalizing Waydroid'")
+        sudo systemctl start waydroid-container | $(bash -c "show_progress 'Starting Waydroid container'")
+#       sudo systemctl disable android_boot_completed.service
+        if [[ -z $(which waydroid) ]]; then
+            yad --title "Info" --text-align=center --text "Waydroid is not installed." --button='Close!gtk-cancel':0
+        else
+            yad --title "Info" --text-align=center --text "Installed Waydroid." --button='Close!gtk-ok':0
+        fi
+    else
+        exit 1
+    fi
+}
+
+uninstall_waydroid() {
+    CONFIRM=$(bash -c "confirm_action 'Uninstall Waydroid?'")
+    if [[ $CONFIRM == "0" ]]; then
+        PASSWD=$(ask_passwd)
+        waydroid session stop
+        echo $PASSWD | sudo -S waydroid container stop
+        sudo apt remove waydroid -y | $(bash -c "show_progress 'Removing Waydroid'")
+        sudo rm -rf /var/lib/waydroid /home/.waydroid \
+        ~/waydroid ~/.share/waydroid ~/.local/share/applications/*aydroid* \
+        ~/.local/share/waydroid | $(bash -c "show_progress 'Cleaning up'")
+        yad --title "Info" --text-align=center --text "Uninstalled Waydroid." --button='Close!gtk-ok':0
+    else
+    exit 1
+    fi
+}
+
+container_start() {
+    echo $1 | sudo -S waydroid container start
+    waydroid show-full-ui
+    yad --title "Info" --buttons-layout=center --text-align=center --text "Started Waydroid container." \ 
+         --button='Close!gtk-ok':1
+}
+
+container_stop() {
+    
+    #if [[ "$ANSWER" == "0" ]]; then 
+        waydroid session stop
+        echo $1 | sudo -S waydroid container stop
+        yad --title "Info" --buttons-layout=center --text-align=center --text  "Stopped Waydroid container." \
+            --button='Close!gtk-ok':1
+    #fi
+}
+
+generate_hideapps_screen() {
+    APPSPATH=~/.local/share/applications
+    WINDOW=$(mktemp)
+    echo "$WINDOW"
+    echo '#!/bin/bash' > $WINDOW
+    chmod +x $WINDOW
+    echo 'yad --title "Hide Apps" --form --scroll\' >> $WINDOW
+     
+    for FILE in $(ls -1 $APPSPATH/waydroid.*.desktop)
+    do
+    STATE=$(grep NoDisplay $FILE)
+    #NAME=$(echo $FILE | cut -d "." -f2- | rev | cut -d "." -f2- | rev)
+    NAME=$(grep Name $FILE | cut -d "=" -f2-)
+        case $STATE in
+            "" )
+               echo 'NoDisplay=false' >> $FILE
+               echo "    --field='$NAME (visible)':fbtn \"sed -i '/NoDisplay/ s/false/true/' $FILE\" \\" >> $WINDOW ;;
+    
+            "NoDisplay=false" )
+               echo "    --field='$NAME (visible)':fbtn \"sed -i '/NoDisplay/ s/false/true/' $FILE\" \\" >> $WINDOW ;;
+               
+            "NoDisplay=true" )
+               echo "    --field='$NAME (hidden)':fbtn \"sed -i '/NoDisplay/ s/true/false/' $FILE\" \\" >> $WINDOW ;;
+        esac
+    done
+    echo "  --button='Close!gtk-cancel':1" >> $WINDOW
+    bash $WINDOW
+}
+
+# Make the functions available
+export -f get_passwd confirm_action show_progress \
+          install_waydroid uninstall_waydroid \
+          container_start container_stop ask_passwd \
+          generate_hideapps_screen
+
+# Draw main screen
+PASSWD=$(ask_passwd)
+yad --title "Waydroid Companion" --form \
+  --field='Installation':LBL --align=center \\\
+  --field='':LBL --align=center \\\
+  --field='Install Waydroid':fbtn "bash -c \"install_waydroid $PASSWD\"" \
+  --field='Uninstall Waydroid':fbtn "bash -c \"uninstall_waydroid\"" \
+  --field='Container':LBL --align=center \\\
+  --field='':LBL --align=center \\\
+  --field='Start Waydroid container':fbtn "bash -c \"container_start $PASSWD\"" \
+  --field='Stop Waydroid container':fbtn "bash -c \"container_stop $PASSWD\"" \
+  --field='Session':LBL --align=center \\\
+  --field='':LBL --align=center \\\
+  --field='Full-screen mode':fbtn "bash -c \"waydroid show-full-ui\"" \
+  --field='Start Waydroid session':fbtn "bash -c \"waydroid session start\"" \
+  --field='Stop Waydroid session':fbtn "bash -c \"waydroid session stop\"" \
+  --field='Android applications':LBL --align=center \\\
+  --field='':LBL --align=center \\\
+  --field='Hide/Show applications':fbtn "bash -c \"generate_hideapps_screen\"" \
+  --button='Close!gtk-cancel':0
