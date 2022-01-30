@@ -1,6 +1,0 @@
-#!/bin/bash
-echo "Stopping waydroid"
-waydroid session stop
-echo $1 | sudo -S waydroid container stop
-echo ""
-echo "Stopped."

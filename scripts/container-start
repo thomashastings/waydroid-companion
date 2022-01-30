@@ -1,5 +1,0 @@
-#!/bin/bash
-echo "Starting Waydroid container."
-echo $1 | sudo -S waydroid container start
-waydroid show-full-ui
-echo ""

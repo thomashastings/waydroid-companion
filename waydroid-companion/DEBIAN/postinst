@@ -1,0 +1,3 @@
+#!/bin/sh
+chmod +x /usr/bin/waydroid-companion
+exit 0

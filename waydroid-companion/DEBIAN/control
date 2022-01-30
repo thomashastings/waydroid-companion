@@ -1,0 +1,8 @@
+Package: waydroid-companion
+Version: 0.0.2
+Section: utility
+Prioiroty: optional
+Architecture: all
+Depends: yad
+Maintainer: thomas.hastings@tutanota.com
+Description: A wrapper for commands to manage Waydroid

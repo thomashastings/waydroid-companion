@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Waydroid Companion
+Exec=waydroid-companion
+Comment=
+Terminal=false
+Icon=/usr/share/waydroid-companion/AppIcon.png
+Type=Application

@@ -1,5 +1,0 @@
-#!/bin/bash
-yad --title "Installation" --form \
-  --field='Install Waydroid':fbtn "./install-waydroid $1" \
-  --field='Uninstall Waydroid - lose all settings':fbtn "./uninstall-waydroid $1" \
-  --button='Close!gtk-cancel':1
