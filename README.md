@@ -1,22 +1,18 @@
 ## Waydroid Companion
-This is a small, GUI-enabled script for starting and stopping Waydroid sessions. Its only dependency is [YAD](https://manpages.org/yad), which is available on numerous distros.
+This is a small, GUI-enabled script for starting and stopping Waydroid sessions. Its only dependency is [yad](https://manpages.org/yad), which is available on numerous distros.
 
 Its intended usecase is stopping Waydroid on mobile devices running Phosh to preserve battery, but might be useful on desktop devices as well.
 
 ### Installation
-You can install this application by running:
+See the [releases](https://github.com/thomashastings/waydroid-companion/releases) for a downloadable `*.deb` package.
+It can be installed by running `sudo apt install ./waydroid-companion.deb`
+
+You can also use the repository to build it locally:
 ```
 git clone https://github.com/thomashastings/waydroid-companion.git
 cd waydroid-companion
-./install.sh
-```
-If YAD is not present, the script will try to install it for you. It expects a Debian based distribution with `apt` as the package manager.
-
-If the installation succeeds, you will have a new icon for the application, called `Waydroid Companion`.
-
-You can remove the script by running:
-```
-~/.local/bin/waydroid-companion --remove
+dpkg-deb --build waydroid-companion/
+sudo apt install ./waydroid-companion.deb
 ```
 
 ![Screenshot](https://github.com/thomashastings/waydroid-companion/raw/main/screenshot.png)
@@ -29,15 +25,13 @@ You can remove the script by running:
 - Hide/show applications related to Waydroid
 
 Notes:
-- As of now, the application **does not provide feedback** about its opreations.
-- However, if you run it from the terminal as `~/.local/bin/waydroid-companion`, the terminal window will show what's going on.
 - Once switched the visible/hidden state of an application, the `Hide applications` window has to be opened again to represent the changes happened.
-- If you choose to uninstall Waydroid, Waydroid and all of its data will be **removed** no questions asked.
+- If you choose to uninstall Waydroid, Waydroid and all of its data will be **removed**.
 
 ### Credit
 The original idea comes from [Aaron Hafer](https://open-store.io/app/waydroidhelper.aaronhafer).
 
-The icon is the original icon of [Waydroid](https://waydro.id/), just changed the hue to have a consistent look.
+The icon is the original icon of [Waydroid](https://waydro.id/). Only changed the hue to have a consistent look, but this work is not related to the original Waydroid initiative.
 
 The actions running in the applications are from the [Waydroid docs](https://docs.waydro.id/usage/install-on-desktops).
 
