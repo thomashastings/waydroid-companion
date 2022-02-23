@@ -14,7 +14,7 @@ confirm_action() {
 }
 
 show_progress() {
-    yad --title "Info" --timeout=8 --no-buttons --text "$1. Please, wait..." --text-align=center --pulsate --progress
+    yad --title "Info" --timeout=8 --no-buttons --text "$1" --text-align=center --pulsate --progress
 }
 
 install_waydroid() {
@@ -23,27 +23,27 @@ install_waydroid() {
         wget -q --spider https://1.1.1.1
         if [ $? -eq "0" ]; then
             CONFIRM2="0"
-            echo $1 | sudo -S apt update | $(bash -c "show_progress 'Updating repositories'")
+            echo $1 | sudo -S apt update | $(bash -c "show_progress '[1/7] Updating repositories'")
         else
             CONFIRM2=$(bash -c "confirm_action 'You appear to be offline. Try anyway?'")
         fi
     fi
     if [[ "$CONFIRM" == "0" ]] && [[ "$CONFIRM2" == "0" ]]; then
-        sudo apt install curl wget lxc python3 -y | $(bash -c "show_progress 'Installing dependencies'")
-        sudo apt install ca-certificates -y | $(bash -c "show_progress 'Installing dependencies'")
+        sudo apt install curl wget lxc python3 -y | $(bash -c "show_progress '[2/7] Installing dependencies. Please, wait...'")
+        sudo apt install ca-certificates -y | $(bash -c "show_progress '[3/7] Installing dependencies. Please, wait...'")
         export DISTRO="bullseye" && \
         sudo curl -# --proto '=https' --tlsv1.2 -Sf https://repo.waydro.id/waydroid.gpg --output /usr/share/keyrings/waydroid.gpg && \
         echo "deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ $DISTRO main" > ~/waydroid.list && \
         sudo mv ~/waydroid.list /etc/apt/sources.list.d/waydroid.list && \
-        sudo apt update | $(bash -c "show_progress 'Updating repositories again'")
-        sudo apt -y install waydroid | $(bash -c "show_progress 'Installing Waydroid'")
-        sudo waydroid init | $(bash -c "show_progress 'Intitalizing Waydroid'")
-        sudo systemctl start waydroid-container | $(bash -c "show_progress 'Starting Waydroid container'")
+        sudo apt update | $(bash -c "show_progress '[4/7] Updating repositories again. Please, wait...'")
+        sudo apt -y install waydroid | $(bash -c "show_progress 'Installing Waydroid. Please, wait...'")
+        sudo waydroid init | $(bash -c "show_progress '[5/7] Intitalizing Waydroid. Please, wait...'")
+        sudo systemctl start waydroid-container | $(bash -c "show_progress '[6/7] Starting Waydroid container. Please, wait...'")
 #       sudo systemctl disable android_boot_completed.service
         if [[ -z $(which waydroid) ]]; then
-            yad --title "Info" --text-align=center --text "Waydroid is not installed." --button='Close!gtk-cancel':0
+            yad --title "Info" --text-align=center --text "An error has occured. Waydroid is not installed." --button='Close!gtk-cancel':0
         else
-            yad --title "Info" --text-align=center --text "Installed Waydroid." --button='Close!gtk-ok':0
+            yad --title "Info" --text-align=center --text "[7/7] Installed Waydroid." --button='Close!gtk-ok':0
         fi
     else
         exit 1
@@ -69,18 +69,16 @@ uninstall_waydroid() {
 container_start() {
     echo $1 | sudo -S waydroid container start
     waydroid show-full-ui
-    yad --title "Info" --buttons-layout=center --text-align=center --text "Started Waydroid container." \ 
-         --button='Close!gtk-ok':1
+    yad --title "Info" --buttons-layout=center --text-align=center --text  "Started Waydroid container." \
+            --button='Close!gtk-ok':1
 }
 
 container_stop() {
-    
-    #if [[ "$ANSWER" == "0" ]]; then 
         waydroid session stop
         echo $1 | sudo -S waydroid container stop
         yad --title "Info" --buttons-layout=center --text-align=center --text  "Stopped Waydroid container." \
             --button='Close!gtk-ok':1
-    #fi
+
 }
 
 generate_hideapps_screen() {
